@@ -11,7 +11,10 @@ using namespace std;
 string ParseEvent(istream& is)
 {
     // implement this function
-    return "";
+    string event;
+    is.ignore(1);
+    getline(is, event);
+    return event;
 }
 
 Date ParseDate(istream& is)
@@ -43,7 +46,8 @@ int main() {
         if (command == "Add")
         {
             const auto date = ParseDate(is);
-            cout << date;
+            const auto event = ParseEvent(is);
+            cout << date << " " << event;
         }
 
         /*

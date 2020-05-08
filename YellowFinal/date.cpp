@@ -11,6 +11,6 @@ std::ostream& operator << (std::ostream& output, const Date& date)
 {
 	output << std::setfill('0') << std::setw(4) << date.getYear() << "-" 
 		   << std::setfill('0') << std::setw(2) << date.getMonth() << "-" 
-		   << std::setfill('0') << std::setw(2) << date.getDay() << std::endl;
+		   << std::setfill('0') << std::setw(2) << date.getDay();
 	return output;
 };
