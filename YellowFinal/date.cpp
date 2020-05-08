@@ -27,6 +27,21 @@ std::ostream& operator << (std::ostream& output, const Date& date)
 	return output;
 };
 
-
+bool operator<(const Date& lhs, const Date& rhs)
+{
+	if (lhs.getYear() < rhs.getYear()) return true;
+	if (lhs.getYear() > rhs.getYear()) return false;
+	if (lhs.getYear() == rhs.getYear())
+	{
+		if (lhs.getMonth() < rhs.getMonth()) return true;
+		if (lhs.getMonth() > rhs.getMonth()) return false;
+		if (lhs.getMonth() == rhs.getMonth())
+		{
+			if (lhs.getDay() < rhs.getDay()) return true;
+			if (lhs.getDay() >= rhs.getDay()) return false;
+		}
+	}
+	return false;
+}
 
 

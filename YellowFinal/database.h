@@ -1,10 +1,16 @@
 #pragma once
 
 #include <iostream>
+#include <map>
+#include <set>
+#include <vector>
+#include "date.h"
 
 class Database
 {
 public:
-	Add(const Date& date, const string& event);
-
+	void Add(const Date& date, const std::string& event);
+	void DebugPrint();
+private:
+	std::map<Date, std::vector<std::string>> database;
 };

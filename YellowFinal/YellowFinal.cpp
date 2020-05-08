@@ -23,7 +23,7 @@ void TestAll() {};
 int main() {
     TestAll();
 
-   // Database db;
+    Database db;
 
     for (string line; getline(cin, line); ) {
         istringstream is(line);
@@ -35,7 +35,8 @@ int main() {
         {
             const auto date = ParseDate(is);
             const auto event = ParseEvent(is);
-            cout << date << " " << event;
+            db.Add(date, event);
+            db.DebugPrint();
         }
 
         /*
