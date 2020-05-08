@@ -1,5 +1,17 @@
 #include "date.h"
 
+Date ParseDate(std::istream& is)
+{
+    int year, month, day;
+    is >> year;
+    is.ignore(1);
+    is >> month;
+    is.ignore(1);
+    is >> day;
+    return { year, month, day };
+};
+
+
 Date::Date(int year, int month, int day) : year(year), month(month), day(day){};
 
 int Date::getYear() const { return year; }
@@ -14,3 +26,7 @@ std::ostream& operator << (std::ostream& output, const Date& date)
 		   << std::setfill('0') << std::setw(2) << date.getDay();
 	return output;
 };
+
+
+
+

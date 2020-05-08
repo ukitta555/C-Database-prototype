@@ -18,3 +18,4 @@ private:
 };
 
 std::ostream& operator<< (std::ostream& output, const Date& date);
+Date ParseDate(std::istream& is);
