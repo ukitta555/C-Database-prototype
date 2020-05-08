@@ -1,3 +1,4 @@
+/*
 #include "condition_parser.h"
 #include "token.h"
 
@@ -125,3 +126,4 @@ shared_ptr<Node> ParseCondition(istream& is) {
 
     return top_node;
 }
+*/

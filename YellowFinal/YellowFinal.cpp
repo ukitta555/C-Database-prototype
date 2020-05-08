@@ -2,28 +2,51 @@
 #include <stdexcept>
 #include "database.h"
 #include "date.h"
-#include "condition_parser.h"
-#include "node.h"
+//#include "condition_parser.h"
+//#include "node.h"
 #include "test_runner.h"
 
 using namespace std;
 
-string ParseEvent(istream& is) {
+string ParseEvent(istream& is)
+{
     // implement this function
+    return "";
 }
 
-void TestAll();
+Date ParseDate(istream& is)
+{
+    int year, month, day;
+    is >> year;
+    is.ignore(1);
+    is >> month;
+    is.ignore(1);
+    is >> day;
+    return { year, month, day };
+}
+
+
+
+void TestAll() {};
 
 int main() {
     TestAll();
 
-    Database db;
+   // Database db;
 
     for (string line; getline(cin, line); ) {
         istringstream is(line);
 
         string command;
         is >> command;
+
+        if (command == "Add")
+        {
+            const auto date = ParseDate(is);
+            cout << date;
+        }
+
+        /*
         if (command == "Add") {
             const auto date = ParseDate(is);
             const auto event = ParseEvent(is);
@@ -66,11 +89,12 @@ int main() {
         else {
             throw logic_error("Unknown command: " + command);
         }
+        */
     }
 
     return 0;
 }
-
+/*
 void TestParseEvent() {
     {
         istringstream is("event");
@@ -94,3 +118,4 @@ void TestAll() {
     tr.RunTest(TestParseEvent, "TestParseEvent");
     tr.RunTest(TestParseCondition, "TestParseCondition");
 }
+*/
