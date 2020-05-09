@@ -1,24 +1,28 @@
 ﻿#include <iostream>
 #include <stdexcept>
+#include <sstream>
 #include "database.h"
 #include "date.h"
+#include "tests.h"
+#include "parse_event.h"
 //#include "condition_parser.h"
 //#include "node.h"
 #include "test_runner.h"
 
 using namespace std;
 
-string ParseEvent(istream& is)
+void TestAll();
+
+
+
+
+void TestAll()
 {
-    // implement this function
-    string event;
-    is.ignore(1);
-    getline(is, event);
-    return event;
-}
+    TestRunner tr;
+    tr.RunTest(TestAdd, "TestAdd");
+    tr.RunTest(TestParseEvent, "TestParseEvent");
+};
 
-
-void TestAll() {};
 
 int main() {
     TestAll();
@@ -36,7 +40,7 @@ int main() {
             const auto date = ParseDate(is);
             const auto event = ParseEvent(is);
             db.Add(date, event);
-            db.DebugPrint();
+            db.Print();
         }
 
         /*
@@ -112,3 +116,5 @@ void TestAll() {
     tr.RunTest(TestParseCondition, "TestParseCondition");
 }
 */
+
+

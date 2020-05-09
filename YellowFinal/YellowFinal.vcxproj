@@ -153,6 +153,8 @@
     <ClCompile Include="condition_parser_test.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="date.cpp" />
+    <ClCompile Include="parse_event.cpp" />
+    <ClCompile Include="tests.cpp" />
     <ClCompile Include="test_runner.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="YellowFinal.cpp" />
@@ -162,6 +164,8 @@
     <ClInclude Include="database.h" />
     <ClInclude Include="date.h" />
     <ClInclude Include="node.h" />
+    <ClInclude Include="parse_event.h" />
+    <ClInclude Include="tests.h" />
     <ClInclude Include="test_runner.h" />
     <ClInclude Include="Token.h" />
   </ItemGroup>

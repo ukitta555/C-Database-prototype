@@ -2,7 +2,7 @@
 
 Date ParseDate(std::istream& is)
 {
-    int year, month, day;
+    int year = 0 , month = 0, day = 0;
     is >> year;
     is.ignore(1);
     is >> month;
