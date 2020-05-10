@@ -2,6 +2,7 @@
 #include "condition_parser.h"
 #include "token.h"
 #include "comparison.h"
+#include "LogicalOperation.h"
 
 #include <map>
 using namespace std;
