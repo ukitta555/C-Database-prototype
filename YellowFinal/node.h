@@ -45,6 +45,7 @@ class EventComparisonNode : public Node
 {
 public:
 	EventComparisonNode(const Comparison cmp, const std::string& event);
+	bool Evaluate(const Date& date, const std::string& event) const override;
 private:
 	const Comparison cmp;
 	const std::string event;
@@ -57,6 +58,7 @@ public:
 	LogicalOperationNode(const LogicalOperation logicalOperation
 						,const std::shared_ptr<Node> left
 						,const std::shared_ptr<Node> right);
+	bool Evaluate(const Date& date, const std::string& event) const override;
 private:
 	const LogicalOperation logicalOperation;
 	const std::shared_ptr<Node> left;
