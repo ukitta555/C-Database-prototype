@@ -45,3 +45,13 @@ bool operator<(const Date& lhs, const Date& rhs)
 }
 
 
+bool operator==(const Date& lhs, const Date& rhs)
+{
+	if (lhs.getDay() == rhs.getDay()
+		&& lhs.getMonth() == rhs.getMonth()
+		&& lhs.getYear() == lhs.getYear())
+	{
+		return true;
+	}
+	return false;
+}

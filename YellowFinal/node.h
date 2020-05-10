@@ -27,12 +27,14 @@ class EmptyNode : public Node
 {
 public:
 	EmptyNode();
+	bool Evaluate(const Date& date, const std::string& event) const override;
 };
 
 class DateComparisonNode : public Node
 {
 public:
 	DateComparisonNode(const Comparison cmp, const Date& date);
+	bool Evaluate(const Date& date, const std::string& event) const override;
 private:
 	const Comparison cmp;
 	const Date date;
