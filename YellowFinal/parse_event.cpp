@@ -3,8 +3,8 @@
 std::string ParseEvent(std::istream& is)
 {
     // implement this function
+    while (is.peek() == ' ') is.ignore(1);
     std::string event;
-    is.ignore(1);
     std::getline(is, event);
     return event;
 }

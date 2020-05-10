@@ -1,4 +1,4 @@
-/*
+
 #include "condition_parser.h"
 #include "token.h"
 #include "comparison.h"
@@ -128,4 +128,3 @@ shared_ptr<Node> ParseCondition(istream& is) {
 
     return top_node;
 }
-*/

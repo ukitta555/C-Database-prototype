@@ -19,6 +19,7 @@ void TestAll()
     TestRunner tr;
     tr.RunTest(TestAdd, "TestAdd");
     tr.RunTest(TestParseEvent, "TestParseEvent");
+    tr.RunTest(TestParseCondition, "TestParseCondition");
 };
 
 

@@ -1,5 +1,5 @@
 #include <sstream>
-//#include "condition_parser.h"
+#include "condition_parser.h"
 #include "test_runner.h"
 using namespace std;
 /*
