@@ -6,13 +6,13 @@ void Database::Add(const Date& date, const std::string& event)
 	if (find(eventsForDate.begin(), eventsForDate.end(), event) == eventsForDate.end())	database[date].push_back(event);
 }
 
-void Database::Print() 
+void Database::Print(std::ostream& output) 
 {
 	for (const auto& [key, val] : database)
 	{
 		for (const auto& event : val)
 		{
-			std::cout << key << ' ' << event << std::endl;
+			output << key << ' ' << event << std::endl;
 		}
 	}
 }

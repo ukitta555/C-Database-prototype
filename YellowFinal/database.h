@@ -12,7 +12,7 @@ class Database
 {
 public:
 	void Add(const Date& date, const std::string& event);
-	void Print();
+	void Print(std::ostream& output);
 	std::string DebugPrint();
 private:
 	std::map<Date, std::vector<std::string>> database;

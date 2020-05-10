@@ -14,8 +14,6 @@ using namespace std;
 void TestAll();
 
 
-
-
 void TestAll()
 {
     TestRunner tr;
@@ -40,7 +38,10 @@ int main() {
             const auto date = ParseDate(is);
             const auto event = ParseEvent(is);
             db.Add(date, event);
-            db.Print();
+            db.Print(cout);
+        }
+        else if (command == "Print") {
+            db.Print(cout);
         }
 
         /*
