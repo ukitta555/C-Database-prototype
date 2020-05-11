@@ -33,10 +33,11 @@ public:
 			(*itMap).second.erase(newEnd, (*itMap).second.end());
 			if ((*itMap).second.empty())
 			{
-				itMap++;
+				dates.erase((*itMap).first);
+				++itMap;
 				database.erase(prev(itMap));
 			}
-			else itMap++;
+			else ++itMap;
 		}
 		
 		return result;
@@ -67,7 +68,8 @@ public:
 	std::pair<Date, std::string> Last(const Date& date);
 	std::string DebugPrint();
 private:
-	std::map<Date, std::vector<std::string>> database;
+	std::map<Date, vector<string>> database;
+	std::map<Date, set<string>> setChecker;
 	set<Date> dates;
 };
 

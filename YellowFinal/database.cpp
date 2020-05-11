@@ -44,7 +44,6 @@ std::pair<Date, std::string> Database::Last(const Date& date)
 	
 	
 	if (it == dates.end() || date != (*it)) --it;
-
 	pair<Date, string> result = make_pair((*it), database[(*it)].back());
 	return result;
 }
