@@ -8,6 +8,7 @@ Date ParseDate(std::istream& is)
     is >> month;
     is.ignore(1);
     is >> day;
+//	std::cout << "Created Date:" << ' ' << year << "-" << month << "-" << day << std::endl;
     return { year, month, day };
 };
 
@@ -49,9 +50,14 @@ bool operator==(const Date& lhs, const Date& rhs)
 {
 	if (lhs.getDay() == rhs.getDay()
 		&& lhs.getMonth() == rhs.getMonth()
-		&& lhs.getYear() == lhs.getYear())
+		&& lhs.getYear() == rhs.getYear())
 	{
 		return true;
 	}
 	return false;
+}
+
+bool operator!=(const Date& lhs, const Date& rhs)
+{
+	return !(lhs == rhs);
 }

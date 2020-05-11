@@ -12,12 +12,13 @@ public:
 	int getMonth() const;
 	int getDay() const;
 private:
-	int year;
-	int month;
-	int day;
+	const int year;
+	const int month;
+	const int day;
 };
 
 Date ParseDate(std::istream& is);
 std::ostream& operator<< (std::ostream& output, const Date& date);
 bool operator< (const Date& lhs, const Date& rhs);
 bool operator== (const Date& lhs, const Date& rhs);
+bool operator!= (const Date& lhs, const Date& rhs);

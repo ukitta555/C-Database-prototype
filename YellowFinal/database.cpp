@@ -34,3 +34,4 @@ std::string Database::DebugPrint()
 	}
 	return result;
 }
+

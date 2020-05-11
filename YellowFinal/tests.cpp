@@ -38,14 +38,14 @@ void TestAdd()
         stringstream ss;
 
         ss << "001-12-01 event123";
-        Date date = ParseDate(ss);
+        Date date1 = ParseDate(ss);
         const string event = ParseEvent(ss);
-        db.Add(date, event);
+        db.Add(date1, event);
         ss.clear();
         ss << "2001-12-01 event123";
-        date = ParseDate(ss);
+        Date date2 = ParseDate(ss);
         const string event1 = ParseEvent(ss);
-        db.Add(date, event1);
+        db.Add(date2, event1);
 
         AssertEqual(db.DebugPrint(), "0001-12-01 event1232001-12-01 event123", "001 + 2001 year");
     }
@@ -55,14 +55,14 @@ void TestAdd()
         stringstream ss;
 
         ss << "001-12-01 event123";
-        Date date = ParseDate(ss);
+        Date date1 = ParseDate(ss);
         const string event = ParseEvent(ss);
-        db.Add(date, event);
+        db.Add(date1, event);
         ss.clear();
         ss << "001-12-01 event1234";
-        date = ParseDate(ss);
+        Date date2 = ParseDate(ss);
         const string event1 = ParseEvent(ss);
-        db.Add(date, event1);
+        db.Add(date2, event1);
 
         AssertEqual(db.DebugPrint(), "0001-12-01 event1230001-12-01 event1234", "001 + 001 year");
     }
@@ -74,19 +74,22 @@ void TestAdd()
             stringstream ss;
 
             ss << "001-12-01 event123";
-            Date date = ParseDate(ss);
+            Date date1 = ParseDate(ss);
             const string event = ParseEvent(ss);
-            db.Add(date, event);
+            db.Add(date1, event);
             ss.clear();
             ss << "001-12-01 event123";
-            date = ParseDate(ss);
+            Date date2 = ParseDate(ss);
             const string event1 = ParseEvent(ss);
-            db.Add(date, event1);
+            db.Add(date2, event1);
 
             AssertEqual(db.DebugPrint(), "0001-12-01 event123", "001 + 001 year");
         }
     }
+
 }
+
+
 
 void TestParseEvent() {
     {
@@ -105,6 +108,23 @@ void TestParseEvent() {
         AssertEqual(events, vector<string>{"first event  ", "second event"}, "Parse multiple events");
     }
 }
+
+
+void TestParseDate()
+{
+    // 2000-12-12 & 2012-12-12 test cases
+    {
+        istringstream is1 ("2000-12-12");
+        
+        Date date(2000, 12, 12);
+        AssertEqual(ParseDate(is1), date, "2000-12-12");
+
+        istringstream is2 ("2012-12-12");
+        Assert( (ParseDate(is2) != date), "2012-12-12");
+    }
+}
+
+
 
 void TestParseCondition() {
     {
@@ -176,5 +196,101 @@ void TestParseCondition() {
         Assert(root->Evaluate({ 1, 1, 1 }, "2017-01-01"), "Parse condition 28");
         Assert(!root->Evaluate({ 2016, 1, 1 }, "event"), "Parse condition 29");
         Assert(root->Evaluate({ 2016, 1, 2 }, "event"), "Parse condition 30");
+    }
+}
+
+void TestDel()
+{
+    // add-del-add-del combination
+    {
+        Database db;
+        db.Add({2000,12,12}, "xmas");
+
+        istringstream is(R"(((event == "xmas")))");
+        auto condition = ParseCondition(is);
+        auto predicate = [condition](const Date& date, const string& event) {
+            return condition->Evaluate(date, event);
+        };
+        int count = db.RemoveIf(predicate);
+
+        AssertEqual(count, 1, "count, 1, first try to empty");
+
+
+        db.Add({ 2000,12,12 }, "1xmas1");
+
+        istringstream is1(R"(((event == "1xmas1")))");
+        condition = ParseCondition(is1);
+        auto predicate1 = [condition](const Date& date, const string& event) {
+            return condition->Evaluate(date, event);
+        };
+        count = db.RemoveIf(predicate1);
+
+        AssertEqual(count, 1, "count, 1, second try to empty");
+    }
+    // multiple events in 1 day deletion
+    {
+        Database db;
+        db.Add({ 2012, 12, 12}, "xmas");
+        db.Add({ 2000, 12, 12}, "summer day");
+        db.Add({ 2000, 12, 12 }, "saw her face");
+        db.Add({ 2000, 12, 12 }, "I thought that she could be the one");
+
+
+        istringstream is(R"(((date == 2000-12-12)))");
+        auto condition = ParseCondition(is);
+        auto predicate = [condition](const Date& date, const string& event) {
+            return condition->Evaluate(date, event);
+        };
+        int count = db.RemoveIf(predicate);
+        AssertEqual(count, 3, "multiple deletions");
+    }
+    // del all xmas'es
+    {
+        Database db;
+        db.Add({ 2012, 12, 12}, "xmas");
+        db.Add({ 2011, 12, 12}, "xmas");
+        db.Add({ 2010, 12, 12 }, "xmas");
+        db.Add({ 2000, 12, 12 }, "I thought that she could be the one");
+
+        istringstream is1(R"(((event == "xmas")))");
+
+        auto condition = ParseCondition(is1);
+        auto predicate = [condition](const Date& date, const string& event) {
+            return condition->Evaluate(date, event);
+        };
+        int count = db.RemoveIf(predicate);
+        AssertEqual(count, 3, "multiple deletions of xmas");
+    }
+
+    // clean up the vector for 1 day and test whether refilling it works
+    {
+        Database db;
+        db.Add({ 2012, 12, 12 }, "xmas");
+        db.Add({ 2000, 12, 12 }, "summer day");
+        db.Add({ 2000, 12, 12 }, "saw her face");
+        db.Add({ 2000, 12, 12 }, "I thought that she could be the one");
+
+
+        istringstream is1(R"(((date == 2000-12-12)))");
+        auto condition1 = ParseCondition(is1);
+        auto predicate1 = [condition1](const Date& date, const string& event) {
+            return condition1->Evaluate(date, event);
+        };
+        int count1 = db.RemoveIf(predicate1);
+        AssertEqual(count1, 3, "multiple deletions (cleaning 1 vector)");
+
+        db.Add({ 2000, 12, 12 }, "summer day1");
+        db.Add({ 2000, 12, 12 }, "saw her face1");
+        db.Add({ 2000, 12, 12 }, "I thought that she could be the one1");
+
+
+        istringstream is2(R"(((date == 2000-12-12)))");
+        auto condition2 = ParseCondition(is2);
+        auto predicate2 = [condition2](const Date& date, const string& event) {
+            return condition2->Evaluate(date, event);
+        };
+        int count2 = db.RemoveIf(predicate1);
+        AssertEqual(count2, 3, "multiple deletions (refill + cleaning  vector again)");
+
     }
 }

@@ -11,3 +11,5 @@
 void TestAdd();
 void TestParseEvent();
 void TestParseCondition();
+void TestParseDate();
+void TestDel();

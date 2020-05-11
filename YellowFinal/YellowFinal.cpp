@@ -5,8 +5,8 @@
 #include "date.h"
 #include "tests.h"
 #include "parse_event.h"
-//#include "condition_parser.h"
-//#include "node.h"
+#include "condition_parser.h"
+#include "node.h"
 #include "test_runner.h"
 
 using namespace std;
@@ -19,7 +19,9 @@ void TestAll()
     TestRunner tr;
     tr.RunTest(TestAdd, "TestAdd");
     tr.RunTest(TestParseEvent, "TestParseEvent");
+    tr.RunTest(TestParseDate, "TestParseDate");
     tr.RunTest(TestParseCondition, "TestParseCondition");
+    tr.RunTest(TestDel, "TestDel");
 };
 
 
@@ -42,6 +44,15 @@ int main() {
             db.Print(cout);
         }
         else if (command == "Print") {
+            db.Print(cout);
+        }
+        else if (command == "Del") {
+            auto condition = ParseCondition(is);
+            auto predicate = [condition](const Date& date, const string& event) {
+                return condition->Evaluate(date, event);
+            };
+            int count = db.RemoveIf(predicate);
+            cout << "Removed " << count << " entries" << endl;
             db.Print(cout);
         }
 
