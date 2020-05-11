@@ -294,3 +294,66 @@ void TestDel()
 
     }
 }
+
+void TestFind()
+{
+    { // find multiple events on 1 day && 0 year
+        Database db;
+        Date d = {0, 12, 12};
+        db.Add(d, "test1");
+        db.Add(d, "test2");
+        
+        istringstream is1(R"(((date == 0-12-12)))");
+        auto condition1 = ParseCondition(is1);
+        auto predicate1 = [condition1](const Date& date, const string& event) {
+            return condition1->Evaluate(date, event);
+        };
+        
+        vector<pair<Date, string>> correct = { make_pair(d, "test1"), make_pair(d, "test2") };
+        AssertEqual(correct, db.FindIf(predicate1), "0 year & multiple events on 1 day");
+    }
+    { // find 1 event on different days
+        Database db;
+        Date date1 = { 2000, 12, 12 };
+        Date date2 = { 2000, 11, 11 };
+        db.Add(date1, "tobefound");
+        db.Add(date2, "tobefound");
+        db.Add(date1, "nottobefound");
+
+        istringstream is1(R"(((event == "tobefound")))");
+        auto condition1 = ParseCondition(is1);
+        auto predicate1 = [condition1](const Date& date, const string& event) {
+            return condition1->Evaluate(date, event);
+        };
+
+
+        vector <pair<Date, string>> correct = { make_pair(date2, "tobefound"), make_pair(date1, "tobefound") };
+        AssertEqual(correct, db.FindIf(predicate1), "different days & same event");
+    }
+    { // search in empty database
+        Database db;
+        istringstream is1(R"(((event == "tobefound")))");
+        auto condition1 = ParseCondition(is1);
+        auto predicate1 = [condition1](const Date& date, const string& event) {
+            return condition1->Evaluate(date, event);
+        };
+        vector <pair<Date, string>> correct = {};
+        AssertEqual(correct, db.FindIf(predicate1), "empty db");
+    }
+    { // check for correct format
+        Database db;
+        Date date = {1, 2, 3};
+        db.Add(date, "tobefound");
+        istringstream is1(R"(((event == "tobefound")))");
+        auto condition1 = ParseCondition(is1);
+        auto predicate1 = [condition1](const Date& date, const string& event) {
+            return condition1->Evaluate(date, event);
+        };
+        vector <pair<Date, string>> correct = {make_pair(date, "tobefound")};
+        AssertEqual(correct, db.FindIf(predicate1), "format test 1");
+        for (const auto& event : correct)
+        {
+            cerr << event << endl;
+        }
+    }
+}

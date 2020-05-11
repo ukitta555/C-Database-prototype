@@ -44,9 +44,9 @@ public:
 	
 
 	template <typename Predicate>
-	vector<string> FindIf(Predicate predicate)
+	vector<pair<Date, string>> FindIf(Predicate predicate)
 	{
-		vector<string> result;
+		vector<pair<Date, string>> result;
 		for (const auto& [key, val] : database)
 		{
 			auto it = val.begin();
@@ -56,7 +56,7 @@ public:
 												{ return predicate(key, event);});
 				if (it != val.end())
 				{
-					result.push_back(*it);
+					result.push_back(make_pair(key, *it));
 					it++;
 				}
 			}
@@ -69,3 +69,7 @@ public:
 private:
 	std::map<Date, std::vector<std::string>> database;
 };
+
+
+ostream& operator<< (ostream& output, const pair<Date, string>& pair);
+bool operator!= (const pair<Date, string>& lhs, const pair<Date, string>& rhs);

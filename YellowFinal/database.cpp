@@ -35,3 +35,14 @@ std::string Database::DebugPrint()
 	return result;
 }
 
+
+ostream& operator<< (ostream& output, const pair<Date, string>& pair)
+{
+	output << pair.first << ' ' << pair.second;
+	return output;
+}
+
+bool operator!= (const pair<Date, string>& lhs, const pair<Date, string>& rhs)
+{
+	return !(lhs.first == rhs.first && lhs.second == rhs.second);
+}

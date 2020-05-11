@@ -22,6 +22,7 @@ void TestAll()
     tr.RunTest(TestParseDate, "TestParseDate");
     tr.RunTest(TestParseCondition, "TestParseCondition");
     tr.RunTest(TestDel, "TestDel");
+    tr.RunTest(TestFind, "TestFind");
 };
 
 

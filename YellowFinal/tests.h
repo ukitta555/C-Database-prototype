@@ -13,3 +13,4 @@ void TestParseEvent();
 void TestParseCondition();
 void TestParseDate();
 void TestDel();
+void TestFind();
