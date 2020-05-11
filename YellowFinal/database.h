@@ -43,6 +43,28 @@ public:
 	}
 	
 
+	template <typename Predicate>
+	vector<string> FindIf(Predicate predicate)
+	{
+		vector<string> result;
+		for (const auto& [key, val] : database)
+		{
+			auto it = val.begin();
+			while (it != val.end())
+			{
+				it = find_if(it, val.end(), [predicate, key](const string& event)
+												{ return predicate(key, event);});
+				if (it != val.end())
+				{
+					result.push_back(*it);
+					it++;
+				}
+			}
+		}
+		return result;
+	}
+
+
 	std::string DebugPrint();
 private:
 	std::map<Date, std::vector<std::string>> database;
