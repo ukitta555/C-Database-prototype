@@ -44,7 +44,7 @@ public:
 	
 
 	template <typename Predicate>
-	vector<pair<Date, string>> FindIf(Predicate predicate)
+	std::vector<std::pair<Date, std::string>> FindIf(Predicate predicate)
 	{
 		vector<pair<Date, string>> result;
 		for (const auto& [key, val] : database)
@@ -64,12 +64,13 @@ public:
 		return result;
 	}
 
-
+	std::pair<Date, std::string> Last(const Date& date);
 	std::string DebugPrint();
 private:
 	std::map<Date, std::vector<std::string>> database;
+	set<Date> dates;
 };
 
 
-ostream& operator<< (ostream& output, const pair<Date, string>& pair);
-bool operator!= (const pair<Date, string>& lhs, const pair<Date, string>& rhs);
+std::ostream& operator<< (std::ostream& output, const std::pair<Date, std::string>& pair);
+bool operator!= (const std::pair<Date, std::string>& lhs, const std::pair<Date, std::string>& rhs);
