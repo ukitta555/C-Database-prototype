@@ -90,6 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,6 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,15 +153,22 @@
     <ClCompile Include="condition_parser_test.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="date.cpp" />
+    <ClCompile Include="node.cpp" />
+    <ClCompile Include="parse_event.cpp" />
+    <ClCompile Include="tests.cpp" />
     <ClCompile Include="test_runner.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="YellowFinal.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="comparison.h" />
     <ClInclude Include="condition_parser.h" />
     <ClInclude Include="database.h" />
     <ClInclude Include="date.h" />
+    <ClInclude Include="LogicalOperation.h" />
     <ClInclude Include="node.h" />
+    <ClInclude Include="parse_event.h" />
+    <ClInclude Include="tests.h" />
     <ClInclude Include="test_runner.h" />
     <ClInclude Include="Token.h" />
   </ItemGroup>
