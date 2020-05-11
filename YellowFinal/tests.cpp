@@ -357,3 +357,33 @@ void TestFind()
         }
     }
 }
+
+void TestLast()
+{
+    {// test all possible queries for given db (before everything, in the middle, after everything)
+        Database db;
+        Date d = { 1899, 10, 10 };
+        try
+        {
+            cerr << db.Last(d); // should output No events
+        }
+        catch (invalid_argument&) {
+            cerr << "No entries" << endl;
+        }
+        Date d1 = {1900, 12, 12};
+        db.Add(d1, "test1");
+        Date d2 = { 2000,12,12 };
+        db.Add(d2, "test2");
+        db.Add(d2, "test3");
+        pair<Date, string> correct = make_pair(d1, "test1");
+        Date search1 = {1900, 12, 12};
+        AssertEqual(correct, db.Last(search1), "1900-12-12");
+        Date search2 = { 1950, 12, 12 };
+        AssertEqual(correct, db.Last(search2), "1950-12-12");
+        Date search3 = { 2000,12,12 };
+        pair<Date, string> correct1 = make_pair(d2, "test3");
+        AssertEqual(correct1, db.Last(search3), "2000-12-12 two events");
+        Date search4 = { 2001,12,12 };
+        AssertEqual(correct1, db.Last(search4), "2001-12-12 after everything");
+    }
+}

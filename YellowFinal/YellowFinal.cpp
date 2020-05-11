@@ -23,6 +23,7 @@ void TestAll()
     tr.RunTest(TestParseCondition, "TestParseCondition");
     tr.RunTest(TestDel, "TestDel");
     tr.RunTest(TestFind, "TestFind");
+    tr.RunTest(TestLast, "TestLast");
 };
 
 
@@ -79,6 +80,12 @@ int main() {
             catch (invalid_argument&) {
                 cout << "No entries" << endl;
             }
+        }
+        else if (command.empty()) {
+            continue;
+        }
+        else {
+            throw logic_error("Unknown command: " + command);
         }
         /*
         if (command == "Add") {

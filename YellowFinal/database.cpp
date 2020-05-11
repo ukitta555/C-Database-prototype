@@ -37,7 +37,8 @@ std::string Database::DebugPrint()
 }
 
 std::pair<Date, std::string> Database::Last(const Date& date)
-{
+{	
+	if (dates.begin() == dates.end()) throw invalid_argument("no entries in DB!");
 	if (date < *(dates.begin())) throw invalid_argument("wrong date!");
 	auto it = lower_bound(dates.begin(), dates.end(), date);
 	
