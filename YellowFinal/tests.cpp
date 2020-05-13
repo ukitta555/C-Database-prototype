@@ -289,7 +289,7 @@ void TestDel()
         auto predicate2 = [condition2](const Date& date, const string& event) {
             return condition2->Evaluate(date, event);
         };
-        int count2 = db.RemoveIf(predicate1);
+        int count2 = db.RemoveIf(predicate2);
         AssertEqual(count2, 3, "multiple deletions (refill + cleaning  vector again)");
 
     }

@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <stdexcept>
 #include <sstream>
 #include "database.h"
@@ -43,7 +43,6 @@ int main() {
             const auto date = ParseDate(is);
             const auto event = ParseEvent(is);
             db.Add(date, event);
-            db.Print(cout);
         }
         else if (command == "Print")
         {
@@ -57,7 +56,6 @@ int main() {
             };
             int count = db.RemoveIf(predicate);
             cout << "Removed " << count << " entries" << endl;
-            db.Print(cout);
         }
         else if (command == "Find")
         {
