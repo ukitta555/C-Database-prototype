@@ -2,12 +2,15 @@
 
 void Database::Add(const Date& date, const std::string& event) 
 {
-	std::vector<std::string> eventsForDate = database[date];
-	if (find(eventsForDate.begin(), eventsForDate.end(), event) == eventsForDate.end())	database[date].push_back(event);
-	dates.insert(date);
+	if (setChecker.count(date) == 0 || setChecker.at(date).count(event) == 0)
+	{
+		setChecker[date].insert(event);
+		database[date].push_back(event);
+		dates.insert(date);
+	}
 }
 
-void Database::Print(std::ostream& output) 
+void Database::Print(std::ostream& output) const
 {
 	for (const auto& [key, val] : database)
 	{
@@ -36,15 +39,14 @@ std::string Database::DebugPrint()
 	return result;
 }
 
-std::pair<Date, std::string> Database::Last(const Date& date)
+std::pair<Date, std::string> Database::Last(const Date& date) const
 {	
 	if (dates.begin() == dates.end()) throw invalid_argument("no entries in DB!");
 	if (date < *(dates.begin())) throw invalid_argument("wrong date!");
-	auto it = lower_bound(dates.begin(), dates.end(), date);
 	
-	
+	auto it = dates.lower_bound(date);
 	if (it == dates.end() || date != (*it)) --it;
-	pair<Date, string> result = make_pair((*it), database[(*it)].back());
+	pair<Date, string> result = make_pair((*it), database.at((*it)).back());
 	return result;
 }
 

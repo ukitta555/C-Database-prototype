@@ -14,8 +14,7 @@ class Database
 {
 public:
 	void Add(const Date& date, const std::string& event);
-	void Print(std::ostream& output);
-	
+	void Print(ostream& output) const;
 	template <typename Predicate>
 	int RemoveIf(Predicate predicate)
 	{
@@ -23,17 +22,29 @@ public:
 		int result = 0;
 		for (auto itMap = database.begin(); itMap != database.end();)
 		{
-			
 			Date key = (*itMap).first;
+
+
 			auto newEnd = remove_if((*itMap).second.begin(), (*itMap).second.end(),
-				[predicate, key](const string& event) {
+				[&, predicate, key](const string& event) {
+					if (predicate(key, event))
+					{
+						setChecker[key].erase(event);
+						if (setChecker[key].empty()) setChecker.erase(key);
+					}
 					return predicate(key, event);
 				});
+			
 			result += (*itMap).second.end() - newEnd;
+
+
+			// clean vector
 			(*itMap).second.erase(newEnd, (*itMap).second.end());
+			
+			// check whether the vector is empty so that we can remove Data entry in Database Map and Set for Dates
 			if ((*itMap).second.empty())
 			{
-				dates.erase((*itMap).first);
+				dates.erase(key);
 				++itMap;
 				database.erase(prev(itMap));
 			}
@@ -45,31 +56,33 @@ public:
 	
 
 	template <typename Predicate>
-	std::vector<std::pair<Date, std::string>> FindIf(Predicate predicate)
+	vector<pair<Date, string>> FindIf(Predicate predicate) const
 	{
 		vector<pair<Date, string>> result;
-		for (const auto& [key, val] : database)
+		for (auto itMap = database.begin(); itMap != database.end(); itMap++)
 		{
-			auto it = val.begin();
-			while (it != val.end())
+			Date key = (*itMap).first;
+
+			auto it = (*itMap).second.begin();
+			while (it != (*itMap).second.end())
 			{
-				it = find_if(it, val.end(), [predicate, key](const string& event)
+				it = find_if(it, (*itMap).second.end(), [key, predicate](const string& event)
 												{ return predicate(key, event);});
-				if (it != val.end())
+				if (it != (*itMap).second.end())
 				{
 					result.push_back(make_pair(key, *it));
-					it++;
+					++it;
 				}
 			}
 		}
 		return result;
 	}
 
-	std::pair<Date, std::string> Last(const Date& date);
-	std::string DebugPrint();
+	pair<Date, string> Last(const Date& date) const;
+	string DebugPrint();
 private:
-	std::map<Date, vector<string>> database;
-	std::map<Date, set<string>> setChecker;
+	map<Date, vector<string>> database;
+	map<Date, set<string>> setChecker;
 	set<Date> dates;
 };
 

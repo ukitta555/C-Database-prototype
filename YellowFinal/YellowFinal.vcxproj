@@ -158,7 +158,7 @@
     <ClCompile Include="tests.cpp" />
     <ClCompile Include="test_runner.cpp" />
     <ClCompile Include="Token.cpp" />
-    <ClCompile Include="YellowFinal.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="comparison.h" />
